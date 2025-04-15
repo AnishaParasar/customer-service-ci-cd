@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 851725627261.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Building the JAR...
+      - mvn clean package
+      - echo Building Docker image...
+      - docker build -t customer-service .
+      - docker tag customer-service:latest <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/customer-service:latest
+  post_build:
+    commands:
+      - echo Pushing image to ECR...
+      - docker push 851725627261.dkr.ecr.us-east-1.amazonaws.com/customer-service:latest

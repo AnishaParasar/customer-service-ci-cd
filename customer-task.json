@@ -1,0 +1,22 @@
+{
+    "family": "customer-task",
+    "networkMode": "awsvpc",
+    "executionRoleArn": "arn:aws:iam::851725627261:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "customer-service",
+        "image": "851725627261.dkr.ecr.us-east-1.amazonaws.com/customer-service:latest",
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      }
+    ],
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512"
+  }
+  
